@@ -11,20 +11,21 @@
 ## Why is Jev ~100x Faster? (Jev vs. Traditional LLM)
 
 ![Jev vs LLM](./image.png)
+## Key ideas
+- LLMs generate answers token by token, so they are slower.
+- Jev takes a question plus valid options and returns a probability for each
+  option in one pass.
+- Vendor-reported speedup: ~100x+ faster on decision tasks (unverified).
 
-### Key Takeaways from the Diagram:
+## Example: support ticket routing
+Input: "I was charged twice for my subscription and I want my money back"
+Options: Billing, Technical
 
-- **The Problem / Example:**
-  - **User Message:** *"I was charged twice for my subscription and I want my money back"*
-  - **Which team?** `(1) Billing` or `(2) Technical`
+Jev output:
+- Billing: 0.94
+- Technical: 0.06
 
-- **Traditional LLM (e.g., Claude):**
-  - Runs in a loop generating output token-by-token sequentially (~40 tokens = ~40 forward passes).
-  - Takes more time and increases latency.
+The app picks the top option, or sends low-confidence cases to a human.
 
-- **Jev (Decision Model):**
-  - Takes the query and valid options, running in **a single pass (`x1 run`)**.
-  - Directly outputs probabilities:
-    - `Billing` &rarr; **0.94**
-    - `Technical` &rarr; **0.06**
-  - Picks the single winning answer directly and runs up to **100x faster**.
+## Status
+Learning log. More notes and small Jev projects to come.
